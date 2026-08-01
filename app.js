@@ -56,7 +56,7 @@ const i18n = {
     trust_privacy: "🛡 Privacy-First (Банковское шифрование)",
     trust_supervisor: "🧠 Валидировано Агентом-Супервизором",
     trust_global: "🌏 Глобальная инклюзивность",
-    hero_card_sub: "Очень медленный низкий мужской голос • Без музыки",
+    hero_card_sub: "Медленный спокойный голос родителя • Без музыки",
     hero_sample_quote: '"Закрой глаза и обрати внимание на свой нос... Почувствуй тихую и спокойную радость внутри..."',
     hero_card_footer: "✨ Персонализированный рассказ-медитация",
     tag_supermission: "Супермиссия MindEcho AI",
@@ -109,14 +109,14 @@ const i18n = {
     opt_source_mp3: "🎵 Студийная MP3 фонограмма",
     opt_source_tts: "🤖 Динамический ИИ-диктор (Низкий тембр)",
     label_voice_timbre: "Тембр и Голос озвучки:",
-    opt_male_deep: "🎙 Мужской — Очень медленный, низкий спокойный голос",
+    opt_male_deep: "🎤 Спокойный голос родителя с приятным тембром",
     label_meditation_mode: "Режим рассказа-медитации:",
     opt_mode_bedtime: "🌙 Перед сном (Засыпание)",
     opt_mode_morning: "☀️ Утренняя (Уверенность)",
     opt_mode_emergency: "🚨 Экстренная (Заземление)",
     btn_generate: "✨ Сгенерировать и озвучить рассказ-медитацию",
     player_title_default: "Рассказ-Медитация",
-    player_sub_default: "Очень медленный низкий мужской голос • Без музыки",
+    player_sub_default: "Медленный спокойный голос родителя • Без музыки",
     player_placeholder: 'Укажите имя и нажмите "Сгенерировать"...',
     tag_pricing: "Прозрачная монетизация",
     title_pricing: "Выберите Тариф Подписки",
@@ -1142,23 +1142,35 @@ function toggleBillingCycle() {
   const isAnnual = document.getElementById('billing-switch').checked;
   appState.isAnnualBilling = isAnnual;
 
-  const basicPrice = document.querySelector('.price-basic');
+  const basicPrice   = document.querySelector('.price-basic');
   const premiumPrice = document.querySelector('.price-premium');
-  const platinumPrice = document.querySelector('.price-platinum');
+  const platinumPrice= document.querySelector('.price-platinum');
 
+  const basicAnnualSub   = document.querySelector('.price-basic-annual');
   const premiumAnnualSub = document.querySelector('.price-premium-annual');
-  const platinumAnnualSub = document.querySelector('.price-platinum-annual');
+  const platinumAnnualSub= document.querySelector('.price-platinum-annual');
+
+  const monthLabel = document.getElementById('label-monthly');
+  const annualLabel = document.getElementById('label-annual');
 
   if (isAnnual) {
-    premiumPrice.innerHTML = "$59.99 <span>/ год</span>";
-    platinumPrice.innerHTML = "$99.99 <span>/ год</span>";
-    if (premiumAnnualSub) premiumAnnualSub.classList.remove('hidden');
+    if (basicPrice)    basicPrice.innerHTML   = "$29.99 <span>/ год</span>";
+    if (premiumPrice)  premiumPrice.innerHTML = "$59.99 <span>/ год</span>";
+    if (platinumPrice) platinumPrice.innerHTML= "$99.99 <span>/ год</span>";
+    if (basicAnnualSub)    basicAnnualSub.classList.remove('hidden');
+    if (premiumAnnualSub)  premiumAnnualSub.classList.remove('hidden');
     if (platinumAnnualSub) platinumAnnualSub.classList.remove('hidden');
+    if (monthLabel)  monthLabel.classList.remove('active');
+    if (annualLabel) annualLabel.classList.add('active');
   } else {
-    premiumPrice.innerHTML = "$14.99 <span>/ месяц</span>";
-    platinumPrice.innerHTML = "$24.99 <span>/ месяц</span>";
-    if (premiumAnnualSub) premiumAnnualSub.classList.add('hidden');
+    if (basicPrice)    basicPrice.innerHTML   = "$7 <span>/ месяц</span>";
+    if (premiumPrice)  premiumPrice.innerHTML = "$14.99 <span>/ месяц</span>";
+    if (platinumPrice) platinumPrice.innerHTML= "$24.99 <span>/ месяц</span>";
+    if (basicAnnualSub)    basicAnnualSub.classList.add('hidden');
+    if (premiumAnnualSub)  premiumAnnualSub.classList.add('hidden');
     if (platinumAnnualSub) platinumAnnualSub.classList.add('hidden');
+    if (monthLabel)  monthLabel.classList.add('active');
+    if (annualLabel) annualLabel.classList.remove('active');
   }
 
   logClickAnalytics('BillingCycle_Toggled', isAnnual ? 'Annual' : 'Monthly', 0);
