@@ -44,7 +44,7 @@
         <a href="#generator" data-i18n="nav_generator">Студия</a>
         <a href="#pricing" data-i18n="nav_pricing">Тарифы</a>
         <a href="#" onclick="openNDAModal(); return false;" data-i18n="nav_nda">NDA Подпись</a>
-        <a href="#" onclick="openCustDevModal(); return false;" data-i18n="nav_custdev">Опрос CustDev</a>
+        <a href="#" onclick="openCustDevModal(); return false;" class="nav-custdev-btn" data-i18n="nav_custdev">🎁 Опрос + подарок</a>
       </nav>
 
       <div class="nav-controls">
@@ -403,7 +403,7 @@
             <li data-i18n="pf_basic_1">✅ 50 минут генераций в месяц</li>
             <li data-i18n="pf_basic_2">✅ Персонализация под имя ребенка</li>
             <li data-i18n="pf_basic_3">✅ Поддержка 3 языков (RU, EN, HE)</li>
-            <li data-i18n="pf_basic_4">✅ Запись кликов в Google Таблицы</li>
+            <li data-i18n="pf_basic_4">✅ Сохранение истории голосов и рассказов</li>
           </ul>
           <button class="btn btn-outline btn-block" onclick="selectPlan('Basic', 7)" data-i18n="btn_plan_basic">Выбрать Базовый</button>
         </div>
@@ -522,8 +522,8 @@
         </div>
 
         <div class="form-group">
-          <label for="auth-phone" data-i18n="label_auth_phone">Номер телефона:</label>
-          <input type="tel" id="auth-phone" placeholder="+7 (999) 000-00-00" class="form-input">
+          <label for="auth-phone" data-i18n="label_auth_phone">WhatsApp/Telegram:</label>
+          <input type="tel" id="auth-phone" placeholder="WhatsApp / Telegram (+7...)" class="form-input">
         </div>
 
         <div class="form-group">
@@ -612,8 +612,8 @@
   <div id="custdev-modal" class="modal-backdrop hidden">
     <div class="modal-card glass-card">
       <button class="modal-close" onclick="closeCustDevModal()">✕</button>
-      <h3 data-i18n="custdev_modal_title">💬 Опрос CustDev: Помогите сделать продукт лучше</h3>
-      <p class="modal-subtitle" data-i18n="custdev_modal_sub">Выберите интересующий вас сценарий и ответьте на 3 коротких вопроса:</p>
+      <h3 data-i18n="custdev_modal_title">💬 Опрос + подарок: Помогите сделать продукт лучше</h3>
+      <p class="modal-subtitle" data-i18n="custdev_modal_sub">Выберите интересующий вас сценарий, ответьте на 3 вопроса и получите свой подарок:</p>
 
       <div class="custdev-scenario-selector">
         <button class="custdev-btn active" onclick="selectCustDevScenario('burnout')" id="cd-btn-burnout">🟢 1. Выгорание</button>
@@ -628,7 +628,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary btn-block btn-orange" data-i18n="btn_submit_custdev">
-          🚀 Отправить ответы и получить VIP-доступ
+          🚀 Отправить ответы и получить подарок
         </button>
       </form>
     </div>
