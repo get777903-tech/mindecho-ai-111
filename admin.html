@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -120,8 +120,29 @@ tr:hover td{background:rgba(255,255,255,0.03)}
 <div class="panel"><div class="panel-title"><span>📱</span>Устройства</div><div class="chart-wrap"><canvas id="dev-chart"></canvas></div></div>
 </div>
 
+<div class="panel" style="margin-bottom:24px">
+<div class="panel-title"><span>🎁</span>Таблица отзывов и вопросов (Опрос + Подарки)</div>
+<div class="table-toolbar">
+<select class="table-filter" id="f-review-scen" onchange="renderReviewsTable()">
+<option value="">Все сценарии опроса</option>
+<option value="burnout">🟢 1. Выгорание родителей</option>
+<option value="tantrums">🔵 2. Истерики и капризы</option>
+<option value="confidence">🟡 3. Уверенность ребёнка</option>
+<option value="expert">🟣 4. Эксперт / Психолог</option>
+</select>
+<button class="export-btn" onclick="exportReviewsCSV()">⬇ Экспорт Отзывов (CSV)</button>
+<span id="rev-count" style="color:var(--muted);font-size:12px;margin-left:auto"></span>
+</div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Дата/Время</th><th>Имя</th><th>WhatsApp / TG / Email</th><th>Сценарий</th><th>Ответы на опрос / Отзыв</th><th>Статус подарка</th></tr></thead>
+<tbody id="rev-body"></tbody>
+</table>
+</div>
+</div>
+
 <div class="panel" style="margin-bottom:28px">
-<div class="panel-title"><span>👤</span>Список посетителей — Email / Телефон / Имя</div>
+<div class="panel-title"><span>👤</span>Список посетителей — Email / WhatsApp/TG / Имя</div>
 <div class="table-toolbar">
 <select class="table-filter" id="f-event" onchange="renderTable()">
 <option value="">Все события</option>
@@ -136,17 +157,17 @@ tr:hover td{background:rgba(255,255,255,0.03)}
 <select class="table-filter" id="f-lead" onchange="renderTable()">
 <option value="">Все посетители</option>
 <option value="email">С Email</option>
-<option value="phone">С Телефоном</option>
-<option value="leads">Лиды (email или тел)</option>
+<option value="phone">С WhatsApp/TG</option>
+<option value="leads">Лиды (контакты)</option>
 </select>
 <button class="copy-btn" onclick="copyEmails()">📋 Копировать Email</button>
-<button class="copy-btn" onclick="copyPhones()">📞 Копировать Телефоны</button>
+<button class="copy-btn" onclick="copyPhones()">📞 Копировать WhatsApp/TG</button>
 <button class="export-btn" onclick="exportCSV()">⬇ Экспорт CSV</button>
 <span id="tbl-count" style="color:var(--muted);font-size:12px;margin-left:auto"></span>
 </div>
 <div class="table-wrap">
 <table>
-<thead><tr><th>Время</th><th>Email</th><th>Телефон</th><th>Имя</th><th>Событие</th><th>Раздел</th><th>Скролл%</th><th>Время с</th><th>Устройство</th><th>Источник</th><th>Тариф</th></tr></thead>
+<thead><tr><th>Время</th><th>Email</th><th>WhatsApp/TG</th><th>Имя</th><th>Событие</th><th>Раздел</th><th>Скролл%</th><th>Время с</th><th>Устройство</th><th>Источник</th><th>Тариф</th></tr></thead>
 <tbody id="tbl-body"></tbody>
 </table>
 </div>
@@ -183,6 +204,8 @@ async function loadData(){
   }catch(e){loadDemo();}
 }
 
+let reviewsData = [];
+
 function loadDemo(){
   const evs=['Page_View','Generate_Click','Play_Click','Pricing_Viewed','Buy_Premium_Click','Buy_Basic_Click','Voice_Recorded','NDA_Signed','Engaged_30s','Engaged_60s','Auth_Modal_Opened','Emergency_Click'];
   const names=['Мария','Анна','Елена','Ольга','Александр','Надежда'];
@@ -214,6 +237,13 @@ function loadDemo(){
       payment_intent:ev.includes('Buy')
     });
   }
+  reviewsData = [
+    { timestamp: '01.08.2026, 15:42', name: 'Анна М.', contact: '+7 (912) 456-78-90 (WA)', scenario: 'burnout', scenarioTitle: '🟢 Выгорание', answers: '1) Усталость вечером: 9/10. 2) Мечтаю о медитации голосом мамы. 3) Приложение очень нужно для мамы!', status: '🎁 Подарок выдан' },
+    { timestamp: '01.08.2026, 14:15', name: 'Елена В.', contact: '@elena_parent (TG)', scenario: 'tantrums', scenarioTitle: '🔵 Истерики', answers: '1) Частота капризов перед сном: 4-5 раз в неделю. 2) Готова платить за экспресс-режим. 3) Спасибо за подарок!', status: '🎁 Подарок выдан' },
+    { timestamp: '01.08.2026, 13:08', name: 'Ольга К.', contact: 'olga_m@icloud.com', scenario: 'confidence', scenarioTitle: '🟡 Уверенность', answers: '1) Ребенок стеснительный в детсаду. 2) Нужен утренний настрой на уверенность. 3) Прошла опрос ради VIP-доступа.', status: '⏳ В обработке' },
+    { timestamp: '01.08.2026, 11:30', name: 'Дмитрий С.', contact: '+7 (903) 777-88-99 (WA)', scenario: 'expert', scenarioTitle: '🟣 Эксперт', answers: '1) Детский нейропсихолог. 2) Интересует валидация Агентом-Супервизором. 3) Хочу сотрудничество.', status: '🎁 Подарок выдан' },
+    { timestamp: '31.07.2026, 19:22', name: 'Надежда П.', contact: '@nadya_mama (TG)', scenario: 'burnout', scenarioTitle: '🟢 Выгорание', answers: '1) Не хватает 1-2 часов личного времени в день. 2) Рассказы-медитации супер! 3) Подарок получен.', status: '🎁 Подарок выдан' }
+  ];
   stats=buildStats(allRows);
   renderAll();
   showToast('Demo-данные. Задеплойте Apps Script для реальных данных.');
@@ -273,6 +303,7 @@ function renderAll(){
   renderBtns(ec);
   renderCharts();
   renderNames(s.child_names||{});
+  renderReviewsTable();
   renderTable();
 }
 
@@ -327,6 +358,36 @@ function renderCharts(){
 function renderNames(cn){
   const s=Object.entries(cn).sort((a,b)=>b[1]-a[1]).slice(0,20);
   document.getElementById('names-wrap').innerHTML=s.length?s.map(([n,c])=>'<span class="name-pill">'+n+'<span class="name-cnt">'+c+'</span></span>').join(''):'<div class="no-data">Нет данных</div>';
+}
+
+function renderReviewsTable(){
+  const scFilter = document.getElementById('f-review-scen') ? document.getElementById('f-review-scen').value : '';
+  let list = [...reviewsData];
+  if(scFilter) list = list.filter(r => r.scenario === scFilter);
+  const cntEl = document.getElementById('rev-count');
+  if(cntEl) cntEl.textContent = 'Показано отзывов: ' + list.length;
+  const tbody = document.getElementById('rev-body');
+  if(tbody) {
+    tbody.innerHTML = list.map(r => `
+      <tr>
+        <td style="color:var(--muted)">${r.timestamp}</td>
+        <td style="font-weight:600">${r.name}</td>
+        <td><span style="color:var(--cyan)">${r.contact}</span></td>
+        <td>${r.scenarioTitle}</td>
+        <td style="white-space:normal;min-width:280px;line-height:1.4">${r.answers}</td>
+        <td><span class="ev-badge ${r.status.includes('выдан')?'ev-buy':'ev-nda'}">${r.status}</span></td>
+      </tr>
+    `).join('') || '<tr><td colspan="6" class="no-data">Отзывов пока нет</td></tr>';
+  }
+}
+
+function exportReviewsCSV(){
+  const h = ['Дата','Имя','Контакты','Сценарий','Ответы_Отзыв','Статус_Подарка'];
+  const r = reviewsData.map(r => [r.timestamp, r.name, r.contact, r.scenarioTitle, r.answers, r.status].map(v => '"' + (v||'').toString().replace(/"/g,'""') + '"').join(','));
+  const csv = [h.join(','), ...r].join('\n');
+  const b = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'mindecho_reviews_' + new Date().toISOString().split('T')[0] + '.csv'; a.click();
+  showToast('📥 Таблица отзывов сохранена в CSV!');
 }
 
 function renderTable(){
