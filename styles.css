@@ -202,14 +202,18 @@ h1, h2, h3, h4 {
 .navbar {
   position: relative;
   z-index: 100;
-  padding: 24px 0;
+  padding: 16px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
 }
 
 .nav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 20px;
 }
 
 .logo {
@@ -236,7 +240,9 @@ h1, h2, h3, h4 {
 
 .nav-links {
   display: flex;
-  gap: 32px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 22px;
 }
 
 .nav-links a {
@@ -245,14 +251,42 @@ h1, h2, h3, h4 {
   font-size: 15px;
   font-weight: 500;
   transition: color 0.2s;
+  white-space: nowrap;
 }
 
 .nav-links a:hover { color: #FFFFFF; }
 
+/* Highlighted CustDev + Gift button */
+.nav-custdev-btn {
+  background: linear-gradient(135deg, #F97316, #EC4899) !important;
+  color: #FFFFFF !important;
+  padding: 8px 18px !important;
+  border-radius: 20px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+  transition: all 0.25s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  animation: pulseGlow 2.5s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4); transform: scale(1); }
+  100% { box-shadow: 0 6px 22px rgba(236, 72, 153, 0.7); transform: scale(1.03); }
+}
+
+.nav-custdev-btn:hover {
+  transform: translateY(-2px) scale(1.06) !important;
+  box-shadow: 0 8px 25px rgba(236, 72, 153, 0.85) !important;
+}
+
 .nav-controls {
   display: flex;
   align-items: center;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 /* Language Switcher */
@@ -1144,6 +1178,8 @@ input:checked + .slider:before { transform: translateX(28px); }
   .hero-title { font-size: 36px; }
   .pricing-grid { grid-template-columns: 1fr; }
   .steps-grid { grid-template-columns: 1fr; }
-  .nav-links { display: none; }
+  .nav-container { justify-content: center; text-align: center; }
+  .nav-links { justify-content: center; font-size: 13px; gap: 8px 14px; }
+  .nav-controls { justify-content: center; margin-top: 6px; }
   .custdev-scenario-selector { grid-template-columns: 1fr; }
 }
