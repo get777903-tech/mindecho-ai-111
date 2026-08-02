@@ -1054,6 +1054,13 @@ async function submitNDASignature() {
       <br/><br/>
       <p><b>Электронная подпись:</b></p>
       ${sigData ? `<img src="${sigData}" style="max-height: 100px; border: 1px solid #000;" />` : ''}
+      <br/><br/>
+      <h2>TERMS OF SERVICE AND USER AGREEMENT</h2>
+      <p>Effective Date: July 28, 2026</p>
+      <p>Welcome to MindEcho AI. Please read these Terms of Service ("Agreement") carefully before using our application, website, or associated services (collectively, the "Service").</p>
+      <p>This Agreement is entered into by and between Konstantyn Shlomovich (Passport No. 35260680), sole developer and rights holder of MindEcho AI ("Company", "We", "Us"), and any individual or entity accessing or using the Service ("User", "You").</p>
+      <p><b>1. ACCEPTANCE OF TERMS AND ELECTRONIC SIGNATURE</b></p>
+      <p>By creating an account, accessing, or using the Service, You agree to be bound by all terms and conditions of this Agreement. Execution Procedure and Digital Footprint Tracking: This Agreement is executed in electronic form. The Receiving Party's details are entered manually or generated automatically upon authorization. Acceptance is confirmed by checking an electronic box or clicking the confirmation button. The Parties acknowledge that recording the Full Name, email address, date, exact timestamp, IP address, and confirmation of consent into an electronic register constitutes a valid digital footprint, which holds the legal status of a simple electronic signature with full legal effect.</p>
     `;
     try {
       pdfBase64 = await html2pdf().set({ margin: 1, filename: 'NDA.pdf' }).from(pdfDiv).outputPdf('datauristring');
