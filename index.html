@@ -466,6 +466,7 @@
         </div>
         <p data-i18n="footer_brand_desc">Глобальная инклюзивная экосистема для защиты ментального здоровья семей. ИИ, детская нейропсихология и КПТ.</p>
         <p class="copyright" data-i18n="copyright_text">© 2026 MindEcho AI Inc. Все права защищены.</p>
+        <p style="margin-top: 10px;"><a href="admin.html" style="color: #888; font-size: 0.8rem; text-decoration: none;">Вход в административную часть "admin"</a></p>
       </div>
 
       <div class="footer-links">
@@ -592,6 +593,17 @@
         <p><strong>TERMS OF SERVICE AND USER AGREEMENT</strong><br>Effective Date: July 28, 2026<br>Welcome to MindEcho AI. Please read these Terms of Service ("Agreement") carefully before using our application, website, or associated services (collectively, the "Service").<br>This Agreement is entered into by and between Konstantyn Shlomovich (Passport No. 35260680), sole developer and rights holder of MindEcho AI ("Company", "We", "Us"), and any individual or entity accessing or using the Service ("User", "You").<br><strong>1. ACCEPTANCE OF TERMS AND ELECTRONIC SIGNATURE</strong><br>By creating an account, accessing, or using the Service, You agree to be bound by all terms and conditions of this Agreement. Execution Procedure and Digital Footprint Tracking: This Agreement is executed in electronic form. The Receiving Party's details are entered manually or generated automatically upon authorization. Acceptance is confirmed by checking an electronic box or clicking the confirmation button. The Parties acknowledge that recording the Full Name, email address, date, exact timestamp, IP address, and confirmation of consent into an electronic register constitutes a valid digital footprint, which holds the legal status of a simple electronic signature with full legal effect.</p>
       </div>
 
+      <div class="social-login-group" style="display: flex; gap: 10px; justify-content: center; margin-bottom: 15px;">
+        <button class="btn btn-secondary btn-sm" onclick="simulateSocialAuth('Google')" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Google
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="simulateSocialAuth('Apple')" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#000" d="M17.05 20.28c-.98.54-2.06.81-3.08.81-1.12 0-2.26-.35-3.23-.88-1-.54-2.12-.9-3.21-.9-1.04 0-2.15.34-3.13.88-.93.5-1.89.84-2.88.94-.06.01-.13.01-.19.01C.63 21.14-.14 20.25 1 18.2c.7-1.32 1.67-2.76 2.87-4.14C5 12.63 6.22 11.23 7.55 10.14c1.28-1.04 2.66-1.57 4-1.57 1.48 0 2.89.5 4.09 1.18.96.54 1.83.82 2.6.82.72 0 1.54-.23 2.45-.69.21-.11.45-.25.71-.4 1.34-1 2.52-2.19 3.52-3.56.09-.13.26-.18.4-.1.14.08.19.25.1.4-.41.77-.92 1.49-1.52 2.15-1.1 1.25-2.3 2.27-3.56 3.02-.91.56-1.87 1.01-2.85 1.35-.49.17-.98.3-1.46.38zM12 9.4c-1.15 0-2.35.45-3.46 1.35C7.4 11.66 6.3 12.92 5.37 14.3c-1.13 1.67-2 3.32-2.6 4.93C2.12 21 2.88 22 3.65 22h.08c1 .01 1.98-.31 2.92-.81 1.1-.57 2.37-1.01 3.58-1.01s2.48.43 3.57 1.01c1.02.53 2.11.83 3.12.8 1.11-.03 2.05-.72 2.87-1.74.88-1.09 1.7-2.31 2.45-3.61a15.7 15.7 0 0 0-1.78-.58c-1.17-.29-2.32-.23-3.42.17-1.01.37-1.92.93-2.69 1.63a.25.25 0 0 1-.34-.35c.78-.71 1.7-1.27 2.74-1.66 1.13-.42 2.3-.47 3.49-.16.63.16 1.25.4 1.84.69.17-1.78-.06-3.41-.66-4.9-.76-1.9-1.9-3.52-3.38-4.81C15 9.8 13.56 9.4 12 9.4z"/><path fill="#000" d="M12.44 9.17c-1.14-.04-2.28-.48-3.18-1.22-.88-.74-1.52-1.76-1.74-2.82a6.38 6.38 0 0 1 1.28-4.52 5.09 5.09 0 0 1 3.34-1.84c1.1-.1 2.17.27 3.08.97.88.7 1.5 1.7 1.7 2.78a5.57 5.57 0 0 1-1.3 4.3 5.42 5.42 0 0 1-3.18 2.35zm.36-9.14c-1.02.04-2.02.43-2.78 1.12a5.86 5.86 0 0 0-1.2 4.14c.2.98.77 1.91 1.57 2.58.82.68 1.86 1.08 2.92 1.12.87.03 1.77-.28 2.52-.89.78-.65 1.34-1.57 1.54-2.58a5.05 5.05 0 0 0-1.18-3.92c-.75-.8-1.75-1.42-2.88-1.55a.25.25 0 0 0-.51-.02z"/></svg>
+          Apple
+        </button>
+      </div>
+
       <div class="form-group">
         <label for="nda-user-name" data-i18n="label_nda_name">Ваше ФИО Подписанта:</label>
         <input type="text" id="nda-user-name" placeholder="Иванов Александр Петрович" class="form-input">
@@ -600,6 +612,11 @@
       <div class="form-group">
         <label>WhatsApp / Telegram:</label>
         <input type="text" id="nda-user-contact" placeholder="+7 999 000 00 00" class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label>e-mail address:</label>
+        <input type="email" id="nda-user-email" placeholder="email@example.com" class="form-input">
       </div>
 
       <div class="signature-pad-container">
