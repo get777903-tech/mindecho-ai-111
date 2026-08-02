@@ -55,20 +55,20 @@ const i18n = {
     btn_support_project: "[ Поддержать проект / Получить ссылку ]",
     trust_privacy: "🛡 Privacy-First (Банковское шифрование)",
     trust_supervisor: "🧠 Валидировано Агентом-Супервизором",
-    trust_global: "🌏 Глобальная инклюзивность",
+    trust_global: "🌏 платформа для каждого и всего мира",
     hero_card_sub: "Медленный спокойный голос родителя • Без музыки",
     hero_sample_quote: '"Закрой глаза и обрати внимание на свой нос... Почувствуй тихую и спокойную радость внутри..."',
     hero_card_footer: "✨ Персонализированный рассказ-медитация",
     tag_supermission: "Супермиссия MindEcho AI",
     title_supermission: "4 Столпа Общественного Проекта",
     sub_supermission: "Мы создаем не просто коммерческий софт, а самую защищенную и научно выверенную экосистему для ментального здоровья семей во всем мире.",
-    m1_title: "1. Глобальная инклюзивность",
+    m1_title: "1. платформа для каждого и всего мира",
     m1_desc: "Стираем социальное и экономическое неравенство. Платформа доступна даже для малоимущих семей — каждый ребенок имеет право на здоровое развитие. Диалог по КПТ и ACT с супервизором.",
     m2_title: "2. Гармония в доме без ссор",
     m2_desc: "Прогрессивные аудиорежимы и геймификация привычек исключают из жизни семьи истерики, упреки и обиды, мягко повышая эмоциональный интеллект (EQ).",
     m3_title: "3. Сбережение энергии родителей",
     m3_desc: "Защищаем родителей от выгорания, гарантируя 1–2 часа личного времени в день, а детей — от ментального перенапряжения.",
-    m3_tag: "1-2 часа личного времени",
+    m3_tag: "Освобождение 1-2 часа личного времени",
     m4_title: "4. Психосоматика и Научный Подход",
     m4_desc: "Снижаем частоту болезней через регуляцию НС. Родители спокойны, ребёнок усваивает паттерны эмоциональной саморегуляции.",
     tag_modes: "Терапевтический инструментарий",
@@ -151,7 +151,7 @@ const i18n = {
     label_auth_name: "Ваше Имя и Фамилия:",
     label_auth_email: "Ваш Email:",
     label_auth_phone: "Номер телефона:",
-    label_auth_address: "Город / Адрес проживания:",
+    label_auth_address: "email address",
     label_terms_agree: "Я согласен с Условиями использования и политикой конфиденциальности.",
     btn_auth_submit: "Войти / Зарегистрироваться",
     checkout_title: "Оформление подписки",
@@ -201,7 +201,7 @@ const i18n = {
     m2_desc: "Progressive audio modes eliminate tantrums and resentment, gently boosting emotional intelligence (EQ).",
     m3_title: "3. Saving Parents' Energy",
     m3_desc: "Protecting parents from burnout, guaranteeing 1–2 hours of personal daily time.",
-    m3_tag: "1-2 hours of personal time",
+    m3_tag: "Freeing up 1-2 hours of personal time",
     m4_title: "4. Preventing Child Trauma",
     m4_desc: "Gently healing daytime stress and fears right during sleep transition, programming confidence.",
     m4_tag: "Preventive Sleep Therapy",
@@ -1029,6 +1029,11 @@ function submitNDASignature() {
   const name = document.getElementById('nda-user-name').value || 'Анонимный Подписант';
   const sigData = appState.signatureCanvas ? appState.signatureCanvas.toDataURL() : '';
 
+  localStorage.setItem('ndaSigned', 'true');
+  if (typeof hasSignedNDA !== 'undefined') {
+    hasSignedNDA = true;
+  }
+
   alert(`🎉 Соглашение NDA успешно подписано!\nПодписант: ${name}\nФайл NDA автоматически заархивирован на Google Диске.`);
   closeNDAModal();
 
@@ -1214,6 +1219,7 @@ function handleAuthSubmit(e) {
   const userId = 'USER-' + Math.floor(100000 + Math.random() * 900000);
   const name = document.getElementById('auth-name').value || 'Анонимный пользователь';
   const email = document.getElementById('auth-email').value;
+  localStorage.setItem('userEmail', email);
   const phone = document.getElementById('auth-phone').value || 'Не указан';
   const address = document.getElementById('auth-address').value || 'Не указан';
 
@@ -1233,6 +1239,10 @@ function handleAuthSubmit(e) {
 // Google Sheets Webhook Click & Onboarding Logger
 // ─── Core Analytics Logger (v2 — 16 fields) ────────────────────────────────
 function logClickAnalytics(eventType, planName, priceAmount, extraData = {}) {
+  const storedEmail = localStorage.getItem('userEmail');
+  if (storedEmail === 'get777903@gmail.com' || extraData.email === 'get777903@gmail.com') {
+    return; // Ignore activity from admin account
+  }
   const timeOnPage = Math.round((Date.now() - analyticsState.pageStartTime) / 1000);
   const referrer = document.referrer
     ? (document.referrer.includes('instagram') ? 'Instagram'
@@ -1353,3 +1363,21 @@ function registerServiceWorker() {
       .catch(err => console.log('PWA SW registration failed:', err));
   }
 }
+
+// First Click NDA Intercept
+let hasSignedNDA = localStorage.getItem('ndaSigned') === 'true';
+
+document.addEventListener('click', function(e) {
+  if (hasSignedNDA) return;
+  
+  const targetBtn = e.target.closest('button, .btn, a.nav-custdev-btn, a[href*="openNDAModal"], a[href^="#"]');
+  if (targetBtn) {
+    if (targetBtn.closest('#nda-modal')) return;
+    if (targetBtn.classList.contains('lang-btn')) return;
+    if (targetBtn.closest('.lang-switcher')) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    openNDAModal();
+  }
+}, true);
