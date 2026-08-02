@@ -123,14 +123,14 @@ const i18n = {
     plan_premium_sub: "Полный покой и гармония семьи",
     pf_prem_1: "✅ 120 минут генераций (~12 медитаций)",
     pf_prem_2: "✅ Экстренная помощь при истерике",
-    pf_prem_3: "✅ Медленный низкий мужской тембр",
+    pf_prem_3: "✅ Семейный доступ до 5 устройств",
     pf_prem_4: "✅ Приоритетная поддержка",
     btn_plan_premium: "Активировать Премиум",
     plan_plat_sub: "Максимальный ресурс и поддержка",
     pf_plat_1: "✅ 300 минут генерации аудио",
     pf_plat_2: "✅ Неограниченная библиотека медитаций",
     pf_plat_3: "✅ Персональный Агент-Супервизор",
-    pf_plat_4: "✅ Семейный доступ до 5 устройств",
+    pf_plat_4: "✅ Семейный доступ до 8 устройств",
     btn_plan_platinum: "Выбрать Платиновый",
     topup_tag: "⚡ Дополнительные минуты:",
     topup_title: "Пакет «Еще 50 минут медитаций»",
@@ -1027,6 +1027,7 @@ function closeNDAModal() {
 
 function submitNDASignature() {
   const name = document.getElementById('nda-user-name').value || 'Анонимный Подписант';
+  const contact = document.getElementById('nda-user-contact') ? document.getElementById('nda-user-contact').value : '';
   const sigData = appState.signatureCanvas ? appState.signatureCanvas.toDataURL() : '';
 
   localStorage.setItem('ndaSigned', 'true');
@@ -1034,16 +1035,23 @@ function submitNDASignature() {
     hasSignedNDA = true;
   }
 
-  alert(`🎉 Соглашение NDA успешно подписано!\nПодписант: ${name}\nФайл NDA автоматически заархивирован на Google Диске.`);
+  alert(`🎉 Соглашение успешно подписано!\nПодписант: ${name}`);
   closeNDAModal();
 
   logClickAnalytics('NDA_Signed', name, 0, {
     user_name: name,
+    contact: contact,
     signature_data: sigData ? 'Signature Captured' : 'Empty'
   });
 
-  // Redirect to Generator studio
-  scrollToSection('generator');
+  if (appState.pendingCheckout) {
+    appState.pendingCheckout = false;
+    document.getElementById('checkout-plan-name').innerText = appState.selectedPlan;
+    document.getElementById('checkout-plan-price').innerText = `$${appState.selectedPrice}`;
+    document.getElementById('checkout-modal').classList.remove('hidden');
+  } else {
+    scrollToSection('generator');
+  }
 }
 
 // CustDev Survey Modal & Scenarios
@@ -1169,9 +1177,14 @@ function selectPlan(planName, price) {
   if (price === 0) {
     openAuthModal('free');
   } else {
-    document.getElementById('checkout-plan-name').innerText = planName;
-    document.getElementById('checkout-plan-price').innerText = `$${price}`;
-    document.getElementById('checkout-modal').classList.remove('hidden');
+    if (!localStorage.getItem('ndaSigned')) {
+      appState.pendingCheckout = true;
+      openNDAModal();
+    } else {
+      document.getElementById('checkout-plan-name').innerText = planName;
+      document.getElementById('checkout-plan-price').innerText = `$${price}`;
+      document.getElementById('checkout-modal').classList.remove('hidden');
+    }
   }
 }
 
@@ -1363,21 +1376,3 @@ function registerServiceWorker() {
       .catch(err => console.log('PWA SW registration failed:', err));
   }
 }
-
-// First Click NDA Intercept
-let hasSignedNDA = localStorage.getItem('ndaSigned') === 'true';
-
-document.addEventListener('click', function(e) {
-  if (hasSignedNDA) return;
-  
-  const targetBtn = e.target.closest('button, .btn, a.nav-custdev-btn, a[href*="openNDAModal"], a[href^="#"]');
-  if (targetBtn) {
-    if (targetBtn.closest('#nda-modal')) return;
-    if (targetBtn.classList.contains('lang-btn')) return;
-    if (targetBtn.closest('.lang-switcher')) return;
-    
-    e.preventDefault();
-    e.stopPropagation();
-    openNDAModal();
-  }
-}, true);
