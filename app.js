@@ -1025,7 +1025,7 @@ function closeNDAModal() {
   document.getElementById('nda-modal').classList.add('hidden');
 }
 
-function submitNDASignature() {
+async function submitNDASignature() {
   const name = document.getElementById('nda-user-name').value || 'Анонимный Подписант';
   const contact = document.getElementById('nda-user-contact') ? document.getElementById('nda-user-contact').value : '';
   const email = document.getElementById('nda-user-email') ? document.getElementById('nda-user-email').value : '';
@@ -1036,6 +1036,30 @@ function submitNDASignature() {
     hasSignedNDA = true;
   }
 
+  let pdfBase64 = '';
+  if (window.html2pdf) {
+    const pdfDiv = document.createElement('div');
+    pdfDiv.style.padding = '20px';
+    pdfDiv.style.fontFamily = 'Arial, sans-serif';
+    pdfDiv.innerHTML = `
+      <h2>Пользовательское соглашение (Terms of Service)</h2>
+      <p>ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ И ОГРАНИЧЕНИЕ ПРЕТЕНЗИЙ (DISCLAIMER)</p>
+      <hr/>
+      <p><b>ФИО:</b> ${name}</p>
+      <p><b>Email:</b> ${email}</p>
+      <p><b>WhatsApp/TG:</b> ${contact}</p>
+      <p><b>Дата:</b> ${new Date().toLocaleString('ru-RU')}</p>
+      <br/>
+      <p>Я, ${name}, подтверждаю свое согласие с правилами сервиса MindEcho AI.</p>
+      <br/><br/>
+      <p><b>Электронная подпись:</b></p>
+      ${sigData ? `<img src="${sigData}" style="max-height: 100px; border: 1px solid #000;" />` : ''}
+    `;
+    try {
+      pdfBase64 = await html2pdf().set({ margin: 1, filename: 'NDA.pdf' }).from(pdfDiv).outputPdf('datauristring');
+    } catch(e) { console.error('PDF Generation error', e); }
+  }
+
   alert(`🎉 Соглашение успешно подписано!\nПодписант: ${name}\nФайл NDA (PDF) сохранен на Google Диск.`);
   closeNDAModal();
 
@@ -1043,7 +1067,8 @@ function submitNDASignature() {
     user_name: name,
     contact: contact,
     email: email,
-    signature_data: sigData ? 'Signature Captured' : 'Empty'
+    signature_data: sigData ? 'Signature Captured' : 'Empty',
+    pdf_base64: pdfBase64
   });
 
   if (appState.pendingCheckout) {
