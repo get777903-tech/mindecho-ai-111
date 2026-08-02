@@ -123,7 +123,7 @@
   <section id="missions" class="section missions-section">
     <div class="container">
       <div class="section-header text-center">
-        <span class="section-tag" data-i18n="tag_supermission">Супермиссия MindEcho AI</span>
+        <span class="section-tag" data-i18n="tag_supermission" style="font-size: 1.5rem; letter-spacing: 1px;">Супермиссия MindEcho AI</span>
         <h2 class="section-title" data-i18n="title_supermission">4 Столпа Общественного Проекта</h2>
         <p class="section-subtitle" data-i18n="sub_supermission">
           Мы создаем не просто коммерческий софт, а самую защищенную и научно выверенную экосистему для ментального здоровья семей во всем мире.
@@ -168,7 +168,7 @@
           <p data-i18n="m4_desc">
             Профилактически и мягко исцеляем дневные стрессы, обиды и страхи ребенка прямо в процессе засыпания, программируя его на абсолютную уверенность в себе и психологическую устойчивость.
           </p>
-          <div class="card-footer-tag" data-i18n="m4_tag">научно доказанные психотерапевтические протокол</div>
+          <div class="card-footer-tag" data-i18n="m4_tag">научно доказанные психотерапевтические протоколы</div>
         </div>
       </div>
     </div>
@@ -582,15 +582,24 @@
       <h3 data-i18n="nda_title">📜 Электронная подпись NDA</h3>
       <p class="modal-subtitle" data-i18n="nda_sub">Соглашение о неразглашении конфиденциальной информации (NDA)</p>
 
-      <div class="nda-document-box">
-        <p><strong>1. Предмет соглашения:</strong> Пользователь и Стороны обязуются сохранять конфиденциальность методик MindEcho AI, текстов рассказов-медитаций и коммерческих данных.</p>
-        <p><strong>2. Защита данных:</strong> Все персональные данные шифруются по стандарту банковского уровня AES-256 (Privacy-First).</p>
-        <p><strong>3. Юридическая сила:</strong> Настоящая подпись пальцем на экране смартфона или мышкой на ПК имеет силу электронной цифровой подписи.</p>
+      <div class="nda-document-box" style="max-height: 250px; overflow-y: auto; text-align: left; font-size: 0.85rem; padding: 10px;">
+        <p><strong>Пользовательское соглашение (Terms of Service)</strong><br>ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ И ОГРАНИЧЕНИЕ ПРЕТЕНЗИЙ (DISCLAIMER)</p>
+        <p><strong>1. Информационный и развлекательный характер</strong><br>Сервис MindEcho AI предоставляется исключительно в информационных, образовательных и фасилитационных целях. Сервис не является медицинской, психологической или психотерапевтической помощью, не ставит диагнозов и не заменяет консультаций квалифицированных специалистов.</p>
+        <p><strong>2. Ответственность пользователя</strong><br>Пользователь принимает на себя полную ответственность за применение любых советов, практик, медитаций и сгенерированных сведений, полученных с помощью MindEcho AI.</p>
+        <p><strong>3. Использование биометрии и голоса</strong><br>Пользователь гарантирует, что имеет законные права на использование загружаемых голосовых данных, и берет на себя полную ответственность за последствия генерации и воспроизведения сгенерированного аудиоконтента.</p>
+        <p><strong>4. Отказ от судебных притязаний</strong><br>В максимальной степени, разрешенной применимым законодательством, правообладатель сервиса Konstantyn Shlomovich, а также аффилированные лица и разработчики MindEcho AI не несут ответственности за любые прямые, косвенные, случайные или моральные убытки, психологический дискомфорт или конфликтные ситуации, возникшие в результате использования или невозможности использования сервиса.</p>
+        <p>Используя MindEcho AI, пользователь подтверждает свое согласие с данными условиями и отказывается от предъявления любых судебных и иных материальных претензий к правообладателю.<br>Настоящее Соглашение вступает в силу с момента акцепта и действует бессрочно на протяжении всего периода использования Сервиса. Пользователь соглашается с условиями на всё время работы с приложением.</p>
+        <p><strong>TERMS OF SERVICE AND USER AGREEMENT</strong><br>Effective Date: July 28, 2026<br>Welcome to MindEcho AI. Please read these Terms of Service ("Agreement") carefully before using our application, website, or associated services (collectively, the "Service").<br>This Agreement is entered into by and between Konstantyn Shlomovich (Passport No. 35260680), sole developer and rights holder of MindEcho AI ("Company", "We", "Us"), and any individual or entity accessing or using the Service ("User", "You").<br><strong>1. ACCEPTANCE OF TERMS AND ELECTRONIC SIGNATURE</strong><br>By creating an account, accessing, or using the Service, You agree to be bound by all terms and conditions of this Agreement. Execution Procedure and Digital Footprint Tracking: This Agreement is executed in electronic form. The Receiving Party's details are entered manually or generated automatically upon authorization. Acceptance is confirmed by checking an electronic box or clicking the confirmation button. The Parties acknowledge that recording the Full Name, email address, date, exact timestamp, IP address, and confirmation of consent into an electronic register constitutes a valid digital footprint, which holds the legal status of a simple electronic signature with full legal effect.</p>
       </div>
 
       <div class="form-group">
         <label for="nda-user-name" data-i18n="label_nda_name">Ваше ФИО Подписанта:</label>
         <input type="text" id="nda-user-name" placeholder="Иванов Александр Петрович" class="form-input">
+      </div>
+      
+      <div class="form-group">
+        <label>WhatsApp / Telegram:</label>
+        <input type="text" id="nda-user-contact" placeholder="+7 999 000 00 00" class="form-input">
       </div>
 
       <div class="signature-pad-container">
