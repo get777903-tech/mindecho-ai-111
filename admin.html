@@ -195,11 +195,23 @@ function checkLogin(){
 }
 function logout(){sessionStorage.removeItem('mea');location.reload();}
 
+function parseDateStr(str) {
+  if(!str) return 0;
+  let p = str.split(/[., :]/);
+  if(p.length>=5) return new Date(p[2], p[1]-1, p[0], p[3], p[4], p[5]||0).getTime();
+  return new Date(str).getTime();
+}
+
 async function loadData(){
   try{
     const r=await fetch(READ_URL);
     const j=await r.json();
-    if(j.status==='success'){allRows=j.rows||[];stats=j.stats||{}; renderAll();}
+    if(j.status==='success'){
+      allRows=j.rows||[];
+      allRows.sort((a,b) => parseDateStr(b.timestamp) - parseDateStr(a.timestamp));
+      stats=j.stats||{}; 
+      renderAll();
+    }
     else loadDemo();
   }catch(e){loadDemo();}
 }
@@ -244,6 +256,7 @@ function loadDemo(){
     { timestamp: '01.08.2026, 11:30', name: 'Дмитрий С.', contact: '+7 (903) 777-88-99 (WA)', scenario: 'expert', scenarioTitle: '🟣 Эксперт', answers: '1) Детский нейропсихолог. 2) Интересует валидация Агентом-Супервизором. 3) Хочу сотрудничество.', status: '🎁 Подарок выдан' },
     { timestamp: '31.07.2026, 19:22', name: 'Надежда П.', contact: '@nadya_mama (TG)', scenario: 'burnout', scenarioTitle: '🟢 Выгорание', answers: '1) Не хватает 1-2 часов личного времени в день. 2) Рассказы-медитации супер! 3) Подарок получен.', status: '🎁 Подарок выдан' }
   ];
+  allRows.sort((a,b) => parseDateStr(b.timestamp) - parseDateStr(a.timestamp));
   stats=buildStats(allRows);
   renderAll();
   showToast('Demo-данные. Задеплойте Apps Script для реальных данных.');
