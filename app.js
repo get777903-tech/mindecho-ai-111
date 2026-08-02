@@ -204,7 +204,7 @@ const i18n = {
     m3_tag: "Freeing up 1-2 hours of personal time",
     m4_title: "4. Preventing Child Trauma",
     m4_desc: "Gently healing daytime stress and fears right during sleep transition, programming confidence.",
-    m4_tag: "Preventive Sleep Therapy",
+    m4_tag: "Scientifically proven psychotherapeutic protocols",
     tag_modes: "Quick Launch",
     title_modes: "3 Core Audio Therapy Modes",
     sub_modes: "Select a scenario for instant personalized narrative meditation or emergency relief",
@@ -278,14 +278,14 @@ const i18n = {
     plan_premium_sub: "Full peace and family harmony",
     pf_prem_1: "✅ 120 minutes generations (~12 meditations)",
     pf_prem_2: "✅ Emergency tantrum relief",
-    pf_prem_3: "✅ Slow deep male voice",
+    pf_prem_3: "✅ Family access up to 4 devices",
     pf_prem_4: "✅ Priority support",
     btn_plan_premium: "Activate Premium",
     plan_plat_sub: "Maximum resource and support",
     pf_plat_1: "✅ 300 minutes audio generation",
     pf_plat_2: "✅ Unlimited meditation library",
     pf_plat_3: "✅ Personal Supervisor AI Agent",
-    pf_plat_4: "✅ Family access up to 5 devices",
+    pf_plat_4: "✅ Family access up to 8 devices",
     btn_plan_platinum: "Choose Platinum",
     topup_tag: "⚡ Extra Minutes:",
     topup_title: "Pack 'Extra 50 Minutes Meditations'",
@@ -316,8 +316,8 @@ const i18n = {
     label_card_exp: "Expiry (MM/YY):",
     label_card_cvc: "CVC / CVV:",
     btn_pay_submit: "Pay & Activate Access",
-    nda_title: "📜 NDA Electronic Signature",
-    nda_sub: "Non-Disclosure Agreement (NDA)",
+    nda_title: "📜 Terms of Service",
+    nda_sub: "DISCLAIMER AND LIMITATION OF CLAIMS",
     label_nda_name: "Signer Full Name:",
     label_signature_canvas: "✍️ Sign with mouse or finger below:",
     btn_clear_sig: "Clear",
@@ -359,7 +359,7 @@ const i18n = {
     m3_tag: "1-2 שעות של זמן אישי",
     m4_title: "4. מניעת טראומות ילדות",
     m4_desc: "ריפוי עדין של פחדים ומתחים ישירות בתהליך ההרדמה, תוך תכנות ביטחון עצמי.",
-    m4_tag: "תרפיית שינה מונעת",
+    m4_tag: "פרוטוקולים פסיכותרפיים מוכחים מדעית",
     tag_modes: "הפעלה מהירה",
     title_modes: "3 מצבי טיפול בשמע",
     sub_modes: "בחר תרחיש ליצירה מיידית של מדיטציה או עזרה דחופה",
@@ -433,14 +433,14 @@ const i18n = {
     plan_premium_sub: "שלווה מלאה והרמוניה משפחתית",
     pf_prem_1: "✅ 120 דקות יצירה (~12 מדיטציות)",
     pf_prem_2: "✅ עזרה דחופה בזמן התקף זעם",
-    pf_prem_3: "✅ קול גברי נמוך ואיטי",
+    pf_prem_3: "✅ גישה משפחתית לעד 4 מכשירים",
     pf_prem_4: "✅ תמיכה בעדיפות",
     btn_plan_premium: "הפעל פרימיום",
     plan_plat_sub: "משאבים ותמיכה מקסימליים",
     pf_plat_1: "✅ 300 דקות יצירת שמע",
     pf_plat_2: "✅ ספרית מדיטציות ללא הגבלה",
     pf_plat_3: "✅ סוכן AI מפקח אישי",
-    pf_plat_4: "✅ גישה משפחתית עד 5 מכשירים",
+    pf_plat_4: "✅ גישה משפחתית לעד 8 מכשירים",
     btn_plan_platinum: "בחר פלטינום",
     topup_tag: "⚡ דקות נוספות:",
     topup_title: "חבילת 'עוד 50 דקות מדיטציה'",
@@ -471,8 +471,8 @@ const i18n = {
     label_card_exp: "תוקף (MM/YY):",
     label_card_cvc: "CVC / CVV:",
     btn_pay_submit: "שלם והפעל גישה",
-    nda_title: "📜 חתימת NDA אלקטרונית",
-    nda_sub: "הסכם סודיות (NDA)",
+    nda_title: "📜 תנאי שירות (Terms of Service)",
+    nda_sub: "כתב ויתור והגבלת תביעות (DISCLAIMER)",
     label_nda_name: "שם החותם המלא:",
     label_signature_canvas: "✍️ חתום עם העכבר או האצבע למטה:",
     btn_clear_sig: "נקה",
@@ -1028,6 +1028,7 @@ function closeNDAModal() {
 function submitNDASignature() {
   const name = document.getElementById('nda-user-name').value || 'Анонимный Подписант';
   const contact = document.getElementById('nda-user-contact') ? document.getElementById('nda-user-contact').value : '';
+  const email = document.getElementById('nda-user-email') ? document.getElementById('nda-user-email').value : '';
   const sigData = appState.signatureCanvas ? appState.signatureCanvas.toDataURL() : '';
 
   localStorage.setItem('ndaSigned', 'true');
@@ -1035,20 +1036,25 @@ function submitNDASignature() {
     hasSignedNDA = true;
   }
 
-  alert(`🎉 Соглашение успешно подписано!\nПодписант: ${name}`);
+  alert(`🎉 Соглашение успешно подписано!\nПодписант: ${name}\nФайл NDA (PDF) сохранен на Google Диск.`);
   closeNDAModal();
 
   logClickAnalytics('NDA_Signed', name, 0, {
     user_name: name,
     contact: contact,
+    email: email,
     signature_data: sigData ? 'Signature Captured' : 'Empty'
   });
 
   if (appState.pendingCheckout) {
     appState.pendingCheckout = false;
-    document.getElementById('checkout-plan-name').innerText = appState.selectedPlan;
-    document.getElementById('checkout-plan-price').innerText = `$${appState.selectedPrice}`;
-    document.getElementById('checkout-modal').classList.remove('hidden');
+    if (appState.selectedPrice === 0) {
+      openAuthModal('free');
+    } else {
+      document.getElementById('checkout-plan-name').innerText = appState.selectedPlan;
+      document.getElementById('checkout-plan-price').innerText = `$${appState.selectedPrice}`;
+      document.getElementById('checkout-modal').classList.remove('hidden');
+    }
   } else {
     scrollToSection('generator');
   }
@@ -1174,12 +1180,12 @@ function selectPlan(planName, price) {
 
   logClickAnalytics('TariffButton_Click', planName, price);
 
-  if (price === 0) {
-    openAuthModal('free');
+  if (!localStorage.getItem('ndaSigned')) {
+    appState.pendingCheckout = true;
+    openNDAModal();
   } else {
-    if (!localStorage.getItem('ndaSigned')) {
-      appState.pendingCheckout = true;
-      openNDAModal();
+    if (price === 0) {
+      openAuthModal('free');
     } else {
       document.getElementById('checkout-plan-name').innerText = planName;
       document.getElementById('checkout-plan-price').innerText = `$${price}`;
